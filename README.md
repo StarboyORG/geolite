@@ -67,6 +67,20 @@ IsIpProxy(const geolite_ip[])
   * Requires country database. 
   * Returns 1 if the given ip is public proxy otherwise 0. It will also return 0 if database file does not exist in _scriptfiles_ folder
 
+```Pawn
+stock GetIpCountryAlpha2(const geolite_ip[], geolite_dest[], geolite_len = sizeof (geolite_dest))
+```
+  * Stores the Country alpha 2 code according to given IP, passed by reference.
+  * Returns 1 on success (database file _maxmind_country.db_ exists in _scriptfiles_ folder) or 0 on failure.
+  * _maxmind_country.db_ has been updated and added with the alpha 2 & 3 codes.
+
+```Pawn
+stock GetIpCountryAlpha3(const geolite_ip[], geolite_dest[], geolite_len = sizeof (geolite_dest))
+```
+  * Stores the Country alpha 3 code according to given IP, passed by reference.
+  * Returns 1 on success (database file _maxmind_country.db_ exists in _scriptfiles_ folder) or 0 on failure.
+  * _maxmind_country.db_ has been updated and added with the alpha 2 & 3 codes.
+
 Player-Based Functions:
 ```Pawn
 GetPlayerAutonomousSystem(playerid, geolite_dest[], geolite_len = sizeof (geolite_dest))
@@ -98,6 +112,20 @@ IsPlayerUsingProxy(playerid)
   * Requires country database. 
   * Returns 1 if the ip of the given player is public proxy otherwise 0. It will also return 0 if database file does not exist in _scriptfiles_ folder
 
+```Pawn
+GetPlayerCountryAlpha2(playerid, geolite_dest[], geolite_len = sizeof (geolite_dest))
+```
+  * Stores the Country Alpha 2 code according to given player's IP, passed by reference.
+  * Returns 1 on success (database file _maxmind_country.db_ exists in _scriptfiles_ folder) or 0 on failure.
+  * _maxmind_country.db_ has been updated and added with the alpha 2 & 3 codes.
+  
+```Pawn
+GetPlayerCountryAlpha3(playerid, geolite_dest[], geolite_len = sizeof (geolite_dest))
+```
+  * Stores the Country Alpha 3 code according to given player's IP, passed by reference.
+  * Returns 1 on success (database file _maxmind_country.db_ exists in _scriptfiles_ folder) or 0 on failure.
+  * _maxmind_country.db_ has been updated and added with the alpha 2 & 3 codes.
+
 
 # __Usage__
 ```Pawn
@@ -109,12 +137,13 @@ main() {}
 
 public OnPlayerConnect(playerid)
 {
-    new player_name[MAX_PLAYER_NAME], player_country[MAX_COUNTRY_LENGTH], connection_text[80];
+    new player_name[MAX_PLAYER_NAME], player_country[MAX_COUNTRY_LENGTH], player_country_alpha2[MAX_ALPHA_LENGTH], connection_text[80];
 	    
     GetPlayerName(playerid, player_name, MAX_PLAYER_NAME);
     GetPlayerCountry(playerid, player_country, MAX_COUNTRY_LENGTH);
+    GetPlayerCountryAlpha2(playerid, player_country_alpha2, MAX_ALPHA_LENGTH);
 
-    format(connection_text, sizeof (connection_text), "%s joined from %s", player_name, player_country);
+    format(connection_text, sizeof (connection_text), "%s joined from %s (%s)", player_name, player_country, player_country_alpha2);
     SendClientMessageToAll(0xFFFF00FF, connection_text);
     return 1;
 }
@@ -137,6 +166,7 @@ Constants:
 #define MAX_COUNTRY_LENGTH              45
 #define MAX_CITY_LENGTH                 109
 #define MAX_UTC_LENGTH                  7
+#define MAX_ALPHA_LENGTH                5
 ```
 
 # __Requirements__
